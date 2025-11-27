@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking - Quem Quer Ser Milionário?</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/game.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body class="ranking-page">
+    <div class="particles-background"></div>
+    
+    <div class="ranking-container">
+        <header class="ranking-header">
+            <h1 class="logo-title">RANKING TOP 10</h1>
+        </header>
+        
+        <div class="ranking-table-container">
+            <table class="table table-dark ranking-table">
+                <thead>
+                    <tr>
+                        <th>Posição</th>
+                        <th>Jogador</th>
+                        <th>Prêmio</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="game, iterStat : ${topGames}" 
+                        th:classappend="${iterStat.index == 0} ? 'first-place' : ''">
+                        <td th:text="${iterStat.index + 1} + 'º'">1º</td>
+                        <td th:text="${game.player.nickname}">Jogador</td>
+                        <td class="prize-cell">
+                            <span th:text="${'R$ ' + #numbers.formatDecimal(game.score, 0, 'POINT', 0, 'POINT')}">R$ 1.000.000</span>
+                            <span th:if="${game.score == 1000000}" class="million-badge">⭐</span>
+                        </td>
+                        <td th:text="${#temporals.format(game.startedAt, 'dd/MM/yyyy HH:mm')}">01/01/2024 12:00</td>
+                        <td>
+                            <span th:if="${game.status.name() == 'WON'}" class="badge bg-success">VITÓRIA</span>
+                            <span th:if="${game.status.name() == 'LOST'}" class="badge bg-danger">PERDEU</span>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(topGames)}">
+                        <td colspan="5" class="text-center">Nenhum jogo registrado ainda. Seja o primeiro!</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="ranking-actions">
+            <a th:href="@{/}" class="btn btn-gold btn-lg">JOGAR AGORA</a>
+        </div>
+    </div>
+</body>
+</html>
+

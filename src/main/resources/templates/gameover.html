@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Over - Quem Quer Ser Milionário?</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/game.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body class="gameover-page">
+    <div class="particles-background"></div>
+    
+    <div class="gameover-container">
+        <h1 class="gameover-title">Que pena! Você errou.</h1>
+        
+        <div class="prize-display">
+            <p class="prize-label">Você levou para casa:</p>
+            <div class="prize-amount gold-glow">
+                <span class="currency">R$</span>
+                <span class="amount" th:text="${finalPrize != null ? #numbers.formatDecimal(finalPrize, 0, 'POINT', 0, 'POINT') : (session != null ? #numbers.formatDecimal(session.score, 0, 'POINT', 0, 'POINT') : '0')}">0</span>
+                <span class="cents">,00</span>
+            </div>
+        </div>
+        
+        <div class="gameover-actions">
+            <a th:href="@{/ranking}" class="btn btn-gold btn-lg">VER RANKING</a>
+            <a th:href="@{/}" class="btn btn-secondary btn-lg">JOGAR NOVAMENTE</a>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,88 @@
+spring:
+  application:
+    name: quem-quer-ser-milionario
+  
+  # Perfil ativo (dev por padrão)
+  profiles:
+    active: dev
+  
+  # Datasource H2 (desenvolvimento)
+  datasource:
+    url: jdbc:h2:mem:millionaire_db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  
+  # JPA/Hibernate
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+  
+  # SQL Initialization
+  sql:
+    init:
+      mode: always
+      continue-on-error: false
+  
+  # H2 Console (para debug)
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  
+  # Thymeleaf
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+  
+  # Spring AI - Gemini Configuration
+  ai:
+    google:
+      gemini:
+        api-key: ${GEMINI_API_KEY:AIzaSyCgCcAidTAMenQhEaKnl5GrVZ_GvVYMLDw}
+        model: gemini-2.5-flash
+        options:
+          temperature: 0.3
+          max-tokens: 500
+          timeout: 10s
+  
+  # Cache
+  cache:
+    type: simple
+    cache-names: geminiResponses
+
+# Resilience4j Retry Configuration
+resilience4j:
+  retry:
+    instances:
+      geminiApi:
+        max-attempts: 3
+        wait-duration: 2s
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2
+
+# Logging
+logging:
+  level:
+    root: INFO
+    com.seuprojeto.millionaire: INFO
+    com.seuprojeto.millionaire.service.GeminiAiService: DEBUG
+    org.springframework.ai: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.springframework.web.client: DEBUG
+
+# Server
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-stacktrace: never
+
