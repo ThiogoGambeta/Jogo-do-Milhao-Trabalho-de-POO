@@ -47,7 +47,7 @@ spring:
   ai:
     google:
       gemini:
-        api-key: ${GEMINI_API_KEY:AIzaSyCgCcAidTAMenQhEaKnl5GrVZ_GvVYMLDw}
+        api-key: ${GEMINI_API_KEY:CHAVE API}
         model: gemini-2.5-flash
         options:
           temperature: 0.3
